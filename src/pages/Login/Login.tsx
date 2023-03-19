@@ -18,6 +18,7 @@ import loginGradient from '../../assets/loginGradient.png';
 import axios, { AxiosError } from 'axios';
 import { useAppDispatch } from '../../store/hooks';
 import { setUser } from '../../store/slices/authSlice';
+import { UserType } from '../../types/interfaces';
 
 const Login: React.FC = () => {
     // Redux
@@ -29,25 +30,23 @@ const Login: React.FC = () => {
     // TODO: Implement clean form errors
 
     // React-hook-forms
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm();
+    const { register, handleSubmit } = useForm();
 
-    const onSubmit = (values: any) => {
+    const onSubmit = (values: Record<string, string | number>) => {
         const login = async () => {
             try {
                 // fetching user data from API
-                const { data } = await axios.post(
+                const { data }: { data: { data: UserType } } = await axios.post(
                     `${import.meta.env.VITE_API_BASE_URL}/login`,
                     values,
+                    {
+                        withCredentials: true,
+                    },
                 );
 
                 // If no error, storing session into redux slice
                 dispatch(
                     setUser({
-                        token: data.token,
                         ...data.data,
                     }),
                 );
@@ -68,7 +67,7 @@ const Login: React.FC = () => {
     };
 
     return (
-        <Flex w={'100%'}>
+        <Flex w="100%">
             <HStack
                 position='relative'
                 w='50%'
@@ -76,8 +75,8 @@ const Login: React.FC = () => {
                 alignItems='center'
                 justifyContent='center'
                 bgImg={loginGradient}
-                backgroundPosition={'center'}
-                backgroundSize={'cover'}
+                backgroundPosition="center"
+                backgroundSize="cover"
                 zIndex='0'
             >
                 <Box
@@ -105,9 +104,9 @@ const Login: React.FC = () => {
             >
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <VStack
-                        gap={'1rem'}
-                        alignItems={'center'}
-                        justifyContent={'center'}
+                        gap="1rem"
+                        alignItems="center"
+                        justifyContent="center"
                     >
                         <FormControl>
                             <FormLabel>Adresse email</FormLabel>
@@ -116,7 +115,8 @@ const Login: React.FC = () => {
                                 {...register('username')}
                             />
                             <FormHelperText>
-                                We'll never share your email. (j'ai menti)
+                                We&apos;ll never share your email. (j&apos;ai
+                                menti)
                             </FormHelperText>
                         </FormControl>
                         <FormControl>
@@ -126,13 +126,13 @@ const Login: React.FC = () => {
                                 {...register('password')}
                             />
                             <FormHelperText>
-                                Promis nous n'allons pas faire n'importe quoi
-                                avec
+                                Promis nous n&apos;allons pas faire
+                                n&apos;importe quoi avec
                             </FormHelperText>
                         </FormControl>
                         <Button
-                            w={'100%'}
-                            type={'submit'}
+                            w="100%"
+                            type="submit"
                         >
                             Se Connecter
                         </Button>

@@ -4,5 +4,4 @@ export interface UserType {
     roles: Array<string>;
     name: string;
     surname: string;
-    token: string;
 }
