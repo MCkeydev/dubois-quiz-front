@@ -5,13 +5,17 @@ import Layout from './components/Layout/Layout';
 import Accueil from './pages/Accueil';
 import theme from './styles/theme';
 import { ChakraProvider, Flex, Spinner } from '@chakra-ui/react';
-import '@fontsource/montserrat/';
 import { useAppSelector } from './store/hooks';
 import NotFound from './pages/NotFound/NotFound';
 import React from 'react';
 import Student from './pages/Student/Student';
 import RoleProtectedRoute from './components/RoleProtectedRoute/RoleProtectedRoute';
 import PublicOnlyRoute from './components/PrivateRoute/PublicOnlyRoute';
+import '@fontsource/montserrat/400.css';
+import '@fontsource/montserrat/500.css';
+import '@fontsource/montserrat/600.css';
+import '@fontsource/montserrat/700.css';
+import '@fontsource/montserrat/900.css';
 
 function App() {
     // False when the app has done all necessary processing before painting a route to the user.
