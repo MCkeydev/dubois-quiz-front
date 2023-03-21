@@ -36,6 +36,7 @@ module.exports = {
 		"react/jsx-curly-brace-presence": ['error', { props: "never", children: "never", "propElementValues": "always" }],
 		'newline-before-return': [1],
 		'eol-last': ["error", "always"],
+		"object-property-newline": 1,
 	},
 	'settings': {
 		'react': {

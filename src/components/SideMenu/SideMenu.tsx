@@ -16,10 +16,12 @@ const SideMenu: React.FC<ISideMenuProps> = (props) => {
             bg='white'
             py='2rem'
             cursor='pointer'
+            borderRight='1px solid'
+            borderColor='gray.200'
         >
             <MenuLink
                 icon={MdHome}
-                allowedRoles={['ROLE_ELEVE']}
+                allowedRoles={['ROLE_ELEVE', 'ROLE_FORMATEUR']}
                 userRoles={props.user.roles}
                 destination='accueil'
                 childRoutes={[

@@ -20,10 +20,16 @@ const MenuLink: React.FC<ISideMenuProps> = ({
 }) => {
     const isLocationMatching = useMatch(props.destination);
 
+    const allowedChildRoutes = props.childRoutes
+        ? props.childRoutes.filter((route) =>
+              route.allowedRoles.some((item) => userRoles.includes(item)),
+          )
+        : undefined;
+
     return allowedRoles.some((item) => userRoles.includes(item)) ? (
         <>
-            {/*// Display link : always selected when clicking (the real links are*/}
-            {/*in the collapse)*/}
+            {/* Display link : always selected when clicking (the real links are*/}
+            {/* in the collapse */}
             <Flex
                 to={props.destination}
                 as={NavLink}
@@ -45,42 +51,53 @@ const MenuLink: React.FC<ISideMenuProps> = ({
                 />
                 <Text>{Tools.capitalize(props.destination)}</Text>
             </Flex>
-            <Box
-                in={null !== isLocationMatching}
-                as={Collapse}
-            >
-                <Flex
-                    direction='column'
-                    gap='0.5rem'
-                >
-                    <HStack>
-                        <Icon
-                            as={BsArrow90DegUp}
-                            transform='rotate(90deg) scale(-1, 1)'
-                        />
-                        <Box
-                            as={NavLink}
-                            to='/accueil'
-                            sx={styles.nestedLinkActive}
+            {undefined !== allowedChildRoutes &&
+                allowedChildRoutes.length > 0 && (
+                    <Box
+                        in={null !== isLocationMatching}
+                        as={Collapse}
+                        width='100%'
+                        pl='2.4rem'
+                    >
+                        <Flex
+                            direction='column'
+                            gap='0.5rem'
                         >
-                            Tableau de bord
-                        </Box>
-                    </HStack>
-                    <HStack>
-                        <Icon
-                            as={BsArrow90DegUp}
-                            transform='rotate(90deg) scale(-1, 1)'
-                        />
-                        <Box
-                            as={NavLink}
-                            to='/accueil'
-                            sx={styles.nestedLinkActive}
-                        >
-                            Tableau de bord
-                        </Box>
-                    </HStack>
-                </Flex>
-            </Box>
+                            <HStack columnGap='0.5rem'>
+                                <Icon
+                                    as={BsArrow90DegUp}
+                                    transform='rotate(90deg) scale(-1, 1)'
+                                />
+                                <Box
+                                    as={NavLink}
+                                    to={props.destination}
+                                    sx={styles.nestedLink}
+                                >
+                                    Tableau de bord
+                                </Box>
+                            </HStack>
+                            {allowedChildRoutes.map((route) => (
+                                <HStack
+                                    key={route.destination}
+                                    columnGap='0.5rem'
+                                >
+                                    <Icon
+                                        as={BsArrow90DegUp}
+                                        transform='rotate(90deg) scale(-1, 1)'
+                                    />
+                                    <Box
+                                        as={NavLink}
+                                        to={route.destination}
+                                        sx={styles.nestedLink}
+                                        _hover={styles.nestedLinkHover}
+                                    >
+                                        {Tools.capitalize(route.destination)}
+                                    </Box>
+                                </HStack>
+                            ))}
+                        </Flex>
+                    </Box>
+                )}
         </>
     ) : null;
 };

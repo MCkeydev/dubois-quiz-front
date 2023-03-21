@@ -29,11 +29,15 @@ const styles = {
             bg: 'teal.300',
         },
     },
-    nestedLinkActive: {
+    nestedLink: {
+        transition: 'all 0.15s ease-in-out',
         '&.active': {
             color: 'teal.600',
             fontWeight: 'semibold',
         },
+    },
+    nestedLinkHover: {
+        color: 'teal.400',
     },
 };
 
