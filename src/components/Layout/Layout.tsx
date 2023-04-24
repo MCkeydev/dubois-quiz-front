@@ -16,7 +16,7 @@ const Layout: React.FC = () => {
                 maxH='100vh'
                 overflow='auto'
                 w='100%'
-                bg='whitesmoke'
+                background='#FBFBFB'
                 style={{
                     marginLeft: 0,
                 }}

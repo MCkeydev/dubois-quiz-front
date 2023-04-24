@@ -24,9 +24,8 @@ const AuthManager: React.FC = () => {
 
     /**
      * Triggers only on first render.
-     * Checks with the API if the user is already logged in (cookies are set).
+     * Checks with the API if the user is logged in (cookies are set).
      * If the user is authenticated, dispatches to the redux store the user object.
-     *
      */
     React.useEffect(() => {
         if (isInitialising) {

@@ -1,22 +1,23 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Login from './pages/Login/Login';
-import Layout from './components/Layout/Layout';
 import theme from './styles/theme';
-import { ChakraProvider, Flex, Spinner } from '@chakra-ui/react';
-import { useAppSelector } from './store/hooks';
-import NotFound from './pages/NotFound/NotFound';
+import { Box, ChakraProvider, Flex } from '@chakra-ui/react';
 import React from 'react';
-import Student from './pages/Student/Student';
-import RoleProtectedRoute from './components/RoleProtectedRoute/RoleProtectedRoute';
-import PublicOnlyRoute from './components/PrivateRoute/PublicOnlyRoute';
 import '@fontsource/montserrat/400.css';
 import '@fontsource/montserrat/500.css';
 import '@fontsource/montserrat/600.css';
 import '@fontsource/montserrat/700.css';
 import '@fontsource/montserrat/900.css';
-import RoleViewSwitch from './components/RoleSpecificRoute/RoleViewSwitch';
+import cssStyles from '../App.css';
+import Layout from './components/Layout/Layout';
+import RoleProtectedRoute from './components/RoleProtectedRoute/RoleProtectedRoute';
 import Teacher from './pages/Teacher/Teacher';
+import PublicOnlyRoute from './components/PrivateRoute/PublicOnlyRoute';
+import Login from './pages/Login/Login';
+import Student from './pages/Student/Student';
+import RoleViewSwitch from './components/RoleSpecificRoute/RoleViewSwitch';
+import NotFound from './pages/NotFound/NotFound';
+import { useAppSelector } from './store/hooks';
 
 function App() {
     // False when the app has done all necessary processing before painting a route to the user.
@@ -27,10 +28,31 @@ function App() {
             <BrowserRouter>
                 {isInitialising ? (
                     <Flex
+                        position='relative'
+                        bgImg='/gustiny.jpg'
+                        bgSize='cover'
                         w='100vw'
                         h='100vh'
+                        justifyContent='center'
+                        alignItems='center'
                     >
-                        <Spinner />
+                        <Box
+                            as='img'
+                            src='/Visage.png'
+                            w='auto'
+                            h='260px'
+                            css={cssStyles.container}
+                        />
+                        <Box
+                            position='absolute'
+                            width='400px'
+                            h='200px'
+                            color='white'
+                            right='20%'
+                            fontSize='2.8rem'
+                        >
+                            Alors ça Gustine ?
+                        </Box>
                     </Flex>
                 ) : (
                     <Routes>
