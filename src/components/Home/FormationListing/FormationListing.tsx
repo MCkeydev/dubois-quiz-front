@@ -9,8 +9,6 @@ interface IFormationListingProps {
 }
 
 const FormationListing: React.FC<IFormationListingProps> = (props) => {
-    console.log(props.formations);
-
     return (
         <Flex
             direction='column'

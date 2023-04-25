@@ -19,6 +19,11 @@ import RoleViewSwitch from './components/RoleSpecificRoute/RoleViewSwitch';
 import NotFound from './pages/NotFound/NotFound';
 import { useAppSelector } from './store/hooks';
 
+import dayjs from 'dayjs'; // load on demand
+import 'dayjs/locale/fr';
+
+dayjs.locale('fr');
+
 function App() {
     // False when the app has done all necessary processing before painting a route to the user.
     const isInitialising = useAppSelector((state) => state.init.init);

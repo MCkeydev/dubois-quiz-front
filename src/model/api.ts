@@ -28,6 +28,9 @@ export type Evaluation = {
     averageScore: number;
     maxScore: number;
     copyCount: number;
+    startsAt: string;
+    endsAt: string;
+    formation?: Formation;
 };
 
 export type EvaluationObject = {
