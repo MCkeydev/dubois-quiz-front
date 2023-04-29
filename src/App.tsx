@@ -20,6 +20,7 @@ import { useAppSelector } from './store/hooks';
 
 import dayjs from 'dayjs'; // load on demand
 import 'dayjs/locale/fr';
+import MakeEvaluation from './pages/MakeEvaluation/MakeEvaluation';
 
 dayjs.locale('fr');
 
@@ -82,7 +83,7 @@ function App() {
                                 element={
                                     <RoleProtectedRoute
                                         allowedRoles={['ROLE_ELEVE']}
-                                        component={<div>make evaluation</div>}
+                                        component={<MakeEvaluation />}
                                     />
                                 }
                             />
