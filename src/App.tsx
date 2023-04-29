@@ -1,14 +1,13 @@
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import theme from './styles/theme';
-import { Box, ChakraProvider, Flex } from '@chakra-ui/react';
+import { ChakraProvider, Flex, Spinner } from '@chakra-ui/react';
 import React from 'react';
 import '@fontsource/montserrat/400.css';
 import '@fontsource/montserrat/500.css';
 import '@fontsource/montserrat/600.css';
 import '@fontsource/montserrat/700.css';
 import '@fontsource/montserrat/900.css';
-import cssStyles from '../App.css';
 import Layout from './components/Layout/Layout';
 import RoleProtectedRoute from './components/RoleProtectedRoute/RoleProtectedRoute';
 import Teacher from './pages/Teacher/Teacher';
@@ -34,35 +33,21 @@ function App() {
                 {isInitialising ? (
                     <Flex
                         position='relative'
-                        bgImg='/gustiny.jpg'
-                        bgSize='cover'
                         w='100vw'
                         h='100vh'
                         justifyContent='center'
                         alignItems='center'
                     >
-                        <Box
-                            as='img'
-                            src='/Visage.png'
-                            w='auto'
-                            h='260px'
-                            css={cssStyles.container}
-                        />
-                        <Box
-                            position='absolute'
-                            width='400px'
-                            h='200px'
-                            color='white'
-                            right='20%'
-                            fontSize='2.8rem'
-                        >
-                            Alors ça Gustine ?
-                        </Box>
+                        <Spinner />
                     </Flex>
                 ) : (
                     <Routes>
                         <Route
                             path='/'
+                            element={<Navigate to='/accueil' />}
+                        />
+                        <Route
+                            path=''
                             element={<Layout />}
                         >
                             <Route
@@ -82,12 +67,22 @@ function App() {
                                     />
                                 }
                             />
+                            {/* STUDENT ROUTES */}
                             <Route
                                 path='/accueil/student'
                                 element={
                                     <RoleProtectedRoute
                                         allowedRoles={['ROLE_FORMATEUR']}
                                         component={<Student />}
+                                    />
+                                }
+                            />
+                            <Route
+                                path='/evaluation/:id/participate'
+                                element={
+                                    <RoleProtectedRoute
+                                        allowedRoles={['ROLE_ELEVE']}
+                                        component={<div>make evaluation</div>}
                                     />
                                 }
                             />
