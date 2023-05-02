@@ -12,6 +12,7 @@ import { Evaluation } from '../../../model/api';
 import { BsChevronRight } from 'react-icons/all';
 import isBetween from 'dayjs/plugin/isBetween';
 import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 
 dayjs.extend(isBetween);
 
@@ -20,6 +21,9 @@ interface IIncomingQuizzesProps {
 }
 
 const IncomingEvaluations: React.FC<IIncomingQuizzesProps> = (props) => {
+    // Use of react-router hook
+    const navigate = useNavigate();
+
     return (
         <Flex
             direction='column'
@@ -67,6 +71,11 @@ const IncomingEvaluations: React.FC<IIncomingQuizzesProps> = (props) => {
                                     _hover={{
                                         backgroundColor: 'gray.50',
                                     }}
+                                    onClick={() =>
+                                        navigate(
+                                            `/evaluation/${evaluation.id}/participate`,
+                                        )
+                                    }
                                 >
                                     <Badge
                                         colorScheme={

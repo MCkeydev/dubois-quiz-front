@@ -24,6 +24,7 @@ export type Formation = {
 };
 
 export type Evaluation = {
+    id: string;
     quiz: Quiz;
     averageScore: number;
     maxScore: number;

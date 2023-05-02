@@ -15,7 +15,7 @@ const Student: React.FC = () => {
         null,
     );
     const [incomingEvaluationsData, setincomingEvaluationsData] =
-        React.useState<Array<Evaluation> | null>(null);
+        React.useState<Array<Array<Evaluation>> | null>(null);
 
     // Use of redux hook
     const user = useAppSelector((state) => state.user);
