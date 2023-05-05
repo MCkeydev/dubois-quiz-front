@@ -41,6 +41,8 @@ export type Formation = {
 };
 
 export interface Evaluation extends ObjectWithId {
+    averageScore?: string;
+    maxScore?: string;
     createdAt: string;
     startsAt: string;
     endsAt: string;

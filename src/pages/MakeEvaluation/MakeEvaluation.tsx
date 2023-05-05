@@ -37,7 +37,7 @@ const MakeEvaluation: React.FC = () => {
 
     const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
 
-    const sendCopy = async (data) => {
+    const sendCopy = async (data: any) => {
         const response = await axios.post(
             `${
                 import.meta.env.VITE_API_BASE_URL
@@ -231,7 +231,7 @@ const MakeEvaluation: React.FC = () => {
                                 // type='submit'
                                 onClick={onOpen}
                             >
-                                Terminer l'évaluation
+                                Terminer l&apos;évaluation
                             </Button>
                         </form>
                     </>

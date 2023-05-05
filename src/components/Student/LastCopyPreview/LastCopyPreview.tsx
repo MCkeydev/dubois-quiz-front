@@ -15,7 +15,7 @@ import { BsArrowRightShort } from 'react-icons/all';
 import { EvaluationObject } from '../../../model/api';
 
 interface ILastCopyPreviewProps {
-    studentPreviewData: EvaluationObject | null;
+    studentPreviewData: EvaluationObject | null | undefined;
 }
 
 const LastCopyPreview: React.FC<ILastCopyPreviewProps> = ({
@@ -32,7 +32,7 @@ const LastCopyPreview: React.FC<ILastCopyPreviewProps> = ({
             boxShadow='md'
             maxHeight='300px'
         >
-            {null === studentPreviewData ? (
+            {undefined === studentPreviewData ? (
                 <Spinner
                     alignSelf='center'
                     marginY='auto'
@@ -55,72 +55,84 @@ const LastCopyPreview: React.FC<ILastCopyPreviewProps> = ({
                             Voir la copie
                         </Button>
                     </HStack>
-                    <Flex
-                        maxHeight='100%'
-                        borderRadius='1rem'
-                        border='1px solid'
-                        borderColor='gray.100'
-                        paddingX='2rem'
-                        paddingY='1rem'
-                        alignItems='center'
-                    >
-                        <Stat flex='1 1 0px'>
-                            <StatLabel color='gray.600'>Placement</StatLabel>
-                            <StatNumber fontSize='4xl'>
-                                {studentPreviewData.studentCopy?.position} /{' '}
-                                {studentPreviewData.evaluation?.copyCount}
-                            </StatNumber>
-                        </Stat>
-                        <Stat
-                            flex='1 1 0px'
-                            color='gray.600'
-                        >
-                            <StatLabel>Note</StatLabel>
-                            <StatNumber fontSize='4xl'>
-                                {studentPreviewData.studentCopy?.score} /{' '}
-                                {studentPreviewData.evaluation?.maxScore}
-                            </StatNumber>
-                        </Stat>
-                        <Stat
-                            flex='1 1 0px'
-                            color='gray.600'
-                        >
-                            <StatLabel>Moyenne de la classe</StatLabel>
-                            <StatNumber fontSize='4xl'>
-                                {studentPreviewData.evaluation?.averageScore}/
-                                {studentPreviewData.evaluation?.maxScore}
-                            </StatNumber>
-                        </Stat>
+                    {null === studentPreviewData ? (
+                        <Text>Vous n&apos;avez pas encore de copie</Text>
+                    ) : (
                         <Flex
-                            direction='column'
-                            flex='1 1 0px'
-                            rowGap='1rem'
+                            maxHeight='100%'
+                            borderRadius='1rem'
+                            border='1px solid'
+                            borderColor='gray.100'
+                            paddingX='2rem'
+                            paddingY='1rem'
+                            alignItems='center'
                         >
-                            <Box>
-                                <Text
-                                    fontWeight='medium'
-                                    color='gray.600'
-                                >
-                                    Evaluation
-                                </Text>
-                                <Text noOfLines={1}>
-                                    {studentPreviewData.evaluation?.quiz.title}
-                                </Text>
-                            </Box>
-                            <Divider orientation='horizontal' />
-                            <Box>
-                                <Text
-                                    fontWeight='medium'
-                                    color='gray.600'
-                                >
-                                    Formation
-                                </Text>
-                                <Text noOfLines={1}>
-                                    {studentPreviewData.formation?.name}
-                                </Text>
-                            </Box>
+                            <Stat flex='1 1 0px'>
+                                <StatLabel color='gray.600'>
+                                    Placement
+                                </StatLabel>
+                                <StatNumber fontSize='4xl'>
+                                    {studentPreviewData.studentCopy?.position} /{' '}
+                                    {studentPreviewData.evaluation?.copyCount}
+                                </StatNumber>
+                            </Stat>
+                            <Stat
+                                flex='1 1 0px'
+                                color='gray.600'
+                            >
+                                <StatLabel>Note</StatLabel>
+                                <StatNumber fontSize='4xl'>
+                                    {studentPreviewData.studentCopy?.score} /{' '}
+                                    {studentPreviewData.evaluation?.maxScore}
+                                </StatNumber>
+                            </Stat>
+                            <Stat
+                                flex='1 1 0px'
+                                color='gray.600'
+                            >
+                                <StatLabel>Moyenne de la classe</StatLabel>
+                                <StatNumber fontSize='4xl'>
+                                    {
+                                        studentPreviewData.evaluation
+                                            ?.averageScore
+                                    }
+                                    /{studentPreviewData.evaluation?.maxScore}
+                                </StatNumber>
+                            </Stat>
+                            <Flex
+                                direction='column'
+                                flex='1 1 0px'
+                                rowGap='1rem'
+                            >
+                                <Box>
+                                    <Text
+                                        fontWeight='medium'
+                                        color='gray.600'
+                                    >
+                                        Evaluation
+                                    </Text>
+                                    <Text noOfLines={1}>
+                                        {
+                                            studentPreviewData.evaluation?.quiz
+                                                .title
+                                        }
+                                    </Text>
+                                </Box>
+                                <Divider orientation='horizontal' />
+                                <Box>
+                                    <Text
+                                        fontWeight='medium'
+                                        color='gray.600'
+                                    >
+                                        Formation
+                                    </Text>
+                                    <Text noOfLines={1}>
+                                        {studentPreviewData.formation?.name}
+                                    </Text>
+                                </Box>
+                            </Flex>
                         </Flex>
-                    </Flex>
+                    )}
                 </>
             )}
         </Flex>
