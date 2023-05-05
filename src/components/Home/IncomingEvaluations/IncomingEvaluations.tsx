@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 dayjs.extend(isBetween);
 
 interface IIncomingQuizzesProps {
-    incomingEvaluations: Array<Array<Evaluation>> | null;
+    incomingEvaluations: Array<Array<Evaluation>> | null | undefined;
 }
 
 const IncomingEvaluations: React.FC<IIncomingQuizzesProps> = (props) => {
@@ -41,7 +41,17 @@ const IncomingEvaluations: React.FC<IIncomingQuizzesProps> = (props) => {
             >
                 Vos évaluations à faire
             </Text>
-            {null !== props.incomingEvaluations ? (
+            {null === props.incomingEvaluations ? (
+                <Text>
+                    Vous n&apos;avez pas d&apos;évaluations en cours ou a venir
+                </Text>
+            ) : undefined === props.incomingEvaluations ? (
+                <Spinner
+                    alignSelf='center'
+                    size='xl'
+                    justifySelf='center'
+                />
+            ) : (
                 <Flex
                     direction='column'
                     rowGap='1rem'
@@ -127,12 +137,6 @@ const IncomingEvaluations: React.FC<IIncomingQuizzesProps> = (props) => {
                             );
                         })}
                 </Flex>
-            ) : (
-                <Spinner
-                    alignSelf='center'
-                    size='xl'
-                    justifySelf='center'
-                />
             )}
         </Flex>
     );

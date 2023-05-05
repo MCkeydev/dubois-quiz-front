@@ -9,13 +9,14 @@ import IncomingEvaluations from '../../components/Home/IncomingEvaluations/Incom
 
 const Student: React.FC = () => {
     // Use of react hook
-    const [lastCopyData, setLastCopyData] =
-        React.useState<EvaluationObject | null>(null);
+    const [lastCopyData, setLastCopyData] = React.useState<
+        EvaluationObject | null | undefined
+    >(undefined);
     const [homeData, setHomeData] = React.useState<Array<Formation> | null>(
         null,
     );
     const [incomingEvaluationsData, setincomingEvaluationsData] =
-        React.useState<Array<Array<Evaluation>> | null>(null);
+        React.useState<Array<Array<Evaluation>> | null | undefined>(undefined);
 
     // Use of redux hook
     const user = useAppSelector((state) => state.user);
@@ -27,16 +28,20 @@ const Student: React.FC = () => {
 
         // Fetches last graded copy of the current student
         const fetchLastCopy = async () => {
-            const response = await axios.get<EvaluationObject>(
-                `${
-                    import.meta.env.VITE_API_BASE_URL
-                }/evaluation/studentCopy/preview/last`,
-                {
-                    withCredentials: true,
-                },
-            );
+            try {
+                const response = await axios.get<EvaluationObject>(
+                    `${
+                        import.meta.env.VITE_API_BASE_URL
+                    }/evaluation/studentCopy/preview/last`,
+                    {
+                        withCredentials: true,
+                    },
+                );
 
-            setLastCopyData(response.data);
+                setLastCopyData(response.data);
+            } catch (exception) {
+                setLastCopyData(null);
+            }
         };
 
         fetchLastCopy();
@@ -60,14 +65,17 @@ const Student: React.FC = () => {
 
     React.useEffect(() => {
         const fetchIncomingQuizzes = async () => {
-            const response = await axios.get(
-                `${import.meta.env.VITE_API_BASE_URL}/evaluations/incoming`,
-                {
-                    withCredentials: true,
-                },
-            );
-
-            setincomingEvaluationsData(response.data);
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_API_BASE_URL}/evaluations/incoming`,
+                    {
+                        withCredentials: true,
+                    },
+                );
+                setincomingEvaluationsData(response.data);
+            } catch (exception) {
+                setincomingEvaluationsData(null);
+            }
         };
 
         fetchIncomingQuizzes();
