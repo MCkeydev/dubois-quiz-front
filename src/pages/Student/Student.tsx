@@ -24,6 +24,7 @@ const Student: React.FC = () => {
     React.useEffect(() => {
         // Prevents the API call if not authenticated
         if (null === user) return;
+
         // Fetches last graded copy of the current student
         const fetchLastCopy = async () => {
             const response = await axios.get<EvaluationObject>(
