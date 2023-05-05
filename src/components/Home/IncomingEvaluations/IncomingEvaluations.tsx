@@ -12,14 +12,18 @@ import { Evaluation } from '../../../model/api';
 import { BsChevronRight } from 'react-icons/all';
 import isBetween from 'dayjs/plugin/isBetween';
 import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 
 dayjs.extend(isBetween);
 
 interface IIncomingQuizzesProps {
-    incomingEvaluations: Array<Array<Evaluation>> | null;
+    incomingEvaluations: Array<Array<Evaluation>> | null | undefined;
 }
 
 const IncomingEvaluations: React.FC<IIncomingQuizzesProps> = (props) => {
+    // Use of react-router hook
+    const navigate = useNavigate();
+
     return (
         <Flex
             direction='column'
@@ -37,7 +41,17 @@ const IncomingEvaluations: React.FC<IIncomingQuizzesProps> = (props) => {
             >
                 Vos évaluations à faire
             </Text>
-            {null !== props.incomingEvaluations ? (
+            {null === props.incomingEvaluations ? (
+                <Text>
+                    Vous n&apos;avez pas d&apos;évaluations en cours ou a venir
+                </Text>
+            ) : undefined === props.incomingEvaluations ? (
+                <Spinner
+                    alignSelf='center'
+                    size='xl'
+                    justifySelf='center'
+                />
+            ) : (
                 <Flex
                     direction='column'
                     rowGap='1rem'
@@ -67,6 +81,11 @@ const IncomingEvaluations: React.FC<IIncomingQuizzesProps> = (props) => {
                                     _hover={{
                                         backgroundColor: 'gray.50',
                                     }}
+                                    onClick={() =>
+                                        navigate(
+                                            `/evaluation/${evaluation.id}/participate`,
+                                        )
+                                    }
                                 >
                                     <Badge
                                         colorScheme={
@@ -118,12 +137,6 @@ const IncomingEvaluations: React.FC<IIncomingQuizzesProps> = (props) => {
                             );
                         })}
                 </Flex>
-            ) : (
-                <Spinner
-                    alignSelf='center'
-                    size='xl'
-                    justifySelf='center'
-                />
             )}
         </Flex>
     );
