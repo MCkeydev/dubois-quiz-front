@@ -20,6 +20,7 @@ import MakeEvaluation from './pages/MakeEvaluation/MakeEvaluation';
 import RoleProtectedRoute from './components/RoleProtectedRoute/RoleProtectedRoute';
 import theme from './styles/theme';
 import './App.css';
+import Logout from './pages/Logout/Logout';
 
 dayjs.locale('fr');
 
@@ -90,6 +91,10 @@ function App() {
                         <Route
                             path='/login'
                             element={<PublicOnlyRoute component={<Login />} />}
+                        />
+                        <Route
+                            path='/logout'
+                            element={<Logout />}
                         />
                         <Route
                             path='*'
