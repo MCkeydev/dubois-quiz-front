@@ -10,7 +10,8 @@ const Logout: React.FC = () => {
     const navigate = useNavigate();
     // Use of redux toolkit hooks
     const dispatch = useAppDispatch();
-    const [cookies, setCookie, removeCookie] = useCookies(['jwt_hp']);
+    // Use of react-cookie hook
+    const [_, __, removeCookie] = useCookies(['jwt_hp']);
 
     React.useEffect(() => {
         // Removes the jwt from cookies
