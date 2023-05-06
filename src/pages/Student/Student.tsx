@@ -5,18 +5,19 @@ import axios from 'axios';
 import { Evaluation, EvaluationObject, Formation } from '../../model/api';
 import LastCopyPreview from '../../components/Student/LastCopyPreview/LastCopyPreview';
 import FormationListing from '../../components/Home/FormationListing/FormationListing';
-import IncomingEvaluations from '../../components/Home/IncomingEvaluations/IncomingEvaluations';
+import EvaluationsListing from '../../components/Home/EvaluationsListing/EvaluationsListing';
+
+interface IHomeData {
+    formations: Array<Formation>;
+    onGoing: Array<Evaluation>;
+    incoming: Array<Evaluation>;
+}
 
 const Student: React.FC = () => {
     // Use of react hook
-    const [lastCopyData, setLastCopyData] = React.useState<
-        EvaluationObject | null | undefined
-    >(undefined);
-    const [homeData, setHomeData] = React.useState<Array<Formation> | null>(
-        null,
-    );
-    const [incomingEvaluationsData, setincomingEvaluationsData] =
-        React.useState<Array<Array<Evaluation>> | null | undefined>(undefined);
+    const [lastCopyData, setLastCopyData] =
+        React.useState<EvaluationObject | null>(null);
+    const [homeData, setHomeData] = React.useState<IHomeData | null>(null);
 
     // Use of redux hook
     const user = useAppSelector((state) => state.user);
@@ -51,34 +52,20 @@ const Student: React.FC = () => {
         if (null === user) return;
 
         const fetchHomeData = async () => {
-            const response = await axios.get(
-                `${import.meta.env.VITE_API_BASE_URL}/home`,
-                {
-                    withCredentials: true,
-                },
-            );
-            setHomeData(response.data);
-        };
-
-        fetchHomeData();
-    }, []);
-
-    React.useEffect(() => {
-        const fetchIncomingQuizzes = async () => {
             try {
                 const response = await axios.get(
-                    `${import.meta.env.VITE_API_BASE_URL}/evaluations/incoming`,
+                    `${import.meta.env.VITE_API_BASE_URL}/home`,
                     {
                         withCredentials: true,
                     },
                 );
-                setincomingEvaluationsData(response.data);
+                setHomeData(response.data);
             } catch (exception) {
-                setincomingEvaluationsData(null);
+                setHomeData(null);
             }
         };
 
-        fetchIncomingQuizzes();
+        fetchHomeData();
     }, []);
 
     return (
@@ -90,12 +77,19 @@ const Student: React.FC = () => {
             gap='1rem'
         >
             <LastCopyPreview studentPreviewData={lastCopyData} />
-            <IncomingEvaluations
-                incomingEvaluations={incomingEvaluationsData}
+            <EvaluationsListing
+                evaluations={homeData?.onGoing ?? null}
+                title='Vos évaluations en cours'
+                fallbackMessage={"Vous n'avez pas d'évaluation en cours"}
+            />
+            <EvaluationsListing
+                evaluations={homeData?.incoming ?? null}
+                title='Vos évaluations à venir'
+                fallbackMessage={"Vous n'avez aucune évaluation de prévu"}
             />
             <FormationListing
                 role='student'
-                formations={homeData}
+                formations={homeData?.formations ?? null}
             />
         </Flex>
     );

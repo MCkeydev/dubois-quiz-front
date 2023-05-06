@@ -31,7 +31,7 @@ const MakeEvaluation: React.FC = () => {
     const navigate = useNavigate();
 
     // Use of react-hook-form hook
-    const { register, control, handleSubmit } = useForm();
+    const { register, handleSubmit } = useForm();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -51,7 +51,6 @@ const MakeEvaluation: React.FC = () => {
 
     /**
      * Here we want to parse the submitted data, and format it to API expected format,
-     *
      */
     const onSubmit = handleSubmit(async (data: any) => {
         setIsSubmitting(true);
