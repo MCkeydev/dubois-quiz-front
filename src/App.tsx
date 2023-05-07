@@ -21,6 +21,8 @@ import RoleProtectedRoute from './components/RoleProtectedRoute/RoleProtectedRou
 import theme from './styles/theme';
 import './App.css';
 import Logout from './pages/Logout/Logout';
+import EvaluationCopies from './pages/EvaluationCopies/EvaluationCopies';
+import GradeCopy from './pages/GradeCopy/GradeCopy';
 
 dayjs.locale('fr');
 
@@ -65,6 +67,24 @@ function App() {
                                                 view: <Teacher />,
                                             },
                                         ]}
+                                    />
+                                }
+                            />
+                            <Route
+                                path='evaluation/:id/copies'
+                                element={
+                                    <RoleProtectedRoute
+                                        allowedRoles={['ROLE_FORMATEUR']}
+                                        component={<EvaluationCopies />}
+                                    />
+                                }
+                            />
+                            <Route
+                                path='studentCopy/:id/grade'
+                                element={
+                                    <RoleProtectedRoute
+                                        allowedRoles={['ROLE_FORMATEUR']}
+                                        component={<GradeCopy />}
                                     />
                                 }
                             />
