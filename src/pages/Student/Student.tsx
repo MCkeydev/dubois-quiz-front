@@ -3,19 +3,21 @@ import { Flex } from '@chakra-ui/react';
 import { useAppSelector } from '../../store/hooks';
 import axios from 'axios';
 import { Evaluation, EvaluationObject, Formation } from '../../model/api';
-import LastCopyPreview from '../../components/Student/LastCopyPreview/LastCopyPreview';
+import LastCopyPreview from '../../components/LastCopyPreview/LastCopyPreview';
 import FormationListing from '../../components/Home/FormationListing/FormationListing';
-import IncomingEvaluations from '../../components/Home/IncomingEvaluations/IncomingEvaluations';
+import EvaluationsListing from '../../components/Home/EvaluationsListing/EvaluationsListing';
+
+interface IHomeData {
+    formations: Array<Formation>;
+    onGoing: Array<Evaluation>;
+    incoming: Array<Evaluation>;
+}
 
 const Student: React.FC = () => {
     // Use of react hook
     const [lastCopyData, setLastCopyData] =
         React.useState<EvaluationObject | null>(null);
-    const [homeData, setHomeData] = React.useState<Array<Formation> | null>(
-        null,
-    );
-    const [incomingEvaluationsData, setincomingEvaluationsData] =
-        React.useState<Array<Evaluation> | null>(null);
+    const [homeData, setHomeData] = React.useState<IHomeData | null>(null);
 
     // Use of redux hook
     const user = useAppSelector((state) => state.user);
@@ -24,18 +26,23 @@ const Student: React.FC = () => {
     React.useEffect(() => {
         // Prevents the API call if not authenticated
         if (null === user) return;
+
         // Fetches last graded copy of the current student
         const fetchLastCopy = async () => {
-            const response = await axios.get<EvaluationObject>(
-                `${
-                    import.meta.env.VITE_API_BASE_URL
-                }/evaluation/studentCopy/preview/last`,
-                {
-                    withCredentials: true,
-                },
-            );
+            try {
+                const response = await axios.get<EvaluationObject>(
+                    `${
+                        import.meta.env.VITE_API_BASE_URL
+                    }/studentCopy/preview/last`,
+                    {
+                        withCredentials: true,
+                    },
+                );
 
-            setLastCopyData(response.data);
+                setLastCopyData(response.data);
+            } catch (exception) {
+                setLastCopyData(null);
+            }
         };
 
         fetchLastCopy();
@@ -45,31 +52,20 @@ const Student: React.FC = () => {
         if (null === user) return;
 
         const fetchHomeData = async () => {
-            const response = await axios.get(
-                `${import.meta.env.VITE_API_BASE_URL}/home`,
-                {
-                    withCredentials: true,
-                },
-            );
-            setHomeData(response.data);
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_API_BASE_URL}/home`,
+                    {
+                        withCredentials: true,
+                    },
+                );
+                setHomeData(response.data);
+            } catch (exception) {
+                setHomeData(null);
+            }
         };
 
         fetchHomeData();
-    }, []);
-
-    React.useEffect(() => {
-        const fetchIncomingQuizzes = async () => {
-            const response = await axios.get(
-                `${import.meta.env.VITE_API_BASE_URL}/evaluations/incoming`,
-                {
-                    withCredentials: true,
-                },
-            );
-
-            setincomingEvaluationsData(response.data);
-        };
-
-        fetchIncomingQuizzes();
     }, []);
 
     return (
@@ -81,12 +77,20 @@ const Student: React.FC = () => {
             gap='1rem'
         >
             <LastCopyPreview studentPreviewData={lastCopyData} />
-            <IncomingEvaluations
-                incomingEvaluations={incomingEvaluationsData}
+            <EvaluationsListing
+                evaluations={homeData?.onGoing ?? null}
+                title='Vos évaluations en cours'
+                fallbackMessage={"Vous n'avez pas d'évaluation en cours"}
+            />
+            <EvaluationsListing
+                disableClick
+                evaluations={homeData?.incoming ?? null}
+                title='Vos évaluations à venir'
+                fallbackMessage={"Vous n'avez aucune évaluation de prévu"}
             />
             <FormationListing
                 role='student'
-                formations={homeData}
+                formations={homeData?.formations ?? null}
             />
         </Flex>
     );

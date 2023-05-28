@@ -52,13 +52,22 @@ const Login: React.FC = () => {
                 );
             } catch (e) {
                 if (e instanceof AxiosError) {
-                    toast({
-                        title: 'Une erreur réseau est survenue.',
-                        description: e.message,
-                        status: 'error',
-                        duration: 9000,
-                        isClosable: true,
-                    });
+                    if (e.response?.status === 401) {
+                        toast({
+                            title: 'Identifiants incorrects',
+                            status: 'error',
+                            duration: 9000,
+                            isClosable: true,
+                        });
+                    } else {
+                        toast({
+                            title: 'Une erreur réseau est survenue. Nous nous excusons pour la gêne occasionnée.',
+                            description: e.message,
+                            status: 'error',
+                            duration: 9000,
+                            isClosable: true,
+                        });
+                    }
                 }
             }
         };
@@ -67,7 +76,7 @@ const Login: React.FC = () => {
     };
 
     return (
-        <Flex w="100%">
+        <Flex w='100%'>
             <HStack
                 position='relative'
                 w='50%'
@@ -75,8 +84,8 @@ const Login: React.FC = () => {
                 alignItems='center'
                 justifyContent='center'
                 bgImg={loginGradient}
-                backgroundPosition="center"
-                backgroundSize="cover"
+                backgroundPosition='center'
+                backgroundSize='cover'
                 zIndex='0'
             >
                 <Box
@@ -104,9 +113,9 @@ const Login: React.FC = () => {
             >
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <VStack
-                        gap="1rem"
-                        alignItems="center"
-                        justifyContent="center"
+                        gap='1rem'
+                        alignItems='center'
+                        justifyContent='center'
                     >
                         <FormControl>
                             <FormLabel>Adresse email</FormLabel>
@@ -131,8 +140,8 @@ const Login: React.FC = () => {
                             </FormHelperText>
                         </FormControl>
                         <Button
-                            w="100%"
-                            type="submit"
+                            w='100%'
+                            type='submit'
                         >
                             Se Connecter
                         </Button>

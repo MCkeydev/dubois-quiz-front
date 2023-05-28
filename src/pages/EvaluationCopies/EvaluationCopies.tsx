@@ -1,39 +1,33 @@
 import React from 'react';
-import {
-    Divider,
-    Flex,
-    Heading,
-    HStack,
-    Spinner,
-    Text,
-    VStack,
-} from '@chakra-ui/react';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import { Divider, Flex, HStack, Spinner, Text, VStack } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import { BsChevronRight } from 'react-icons/all';
-import { useNavigate } from 'react-router-dom';
 
-const Teacher: React.FC = () => {
+const EvaluationCopies: React.FC = () => {
+    const { id } = useParams();
     const navigate = useNavigate();
-    const [evaluationsToGrade, setEvaluationsToGrade] =
+    const [evaluationCopies, setEvaluationCopies] =
         React.useState<Array<any> | null>(null);
 
     React.useEffect(() => {
-        const fetchEvaluationsToGrade = async () => {
+        const getEvaluationCopies = async () => {
             try {
                 const response = await axios.get(
-                    `${import.meta.env.VITE_API_BASE_URL}/home`,
+                    `${
+                        import.meta.env.VITE_API_BASE_URL
+                    }/evaluation/${id}/copies`,
                     {
                         withCredentials: true,
                     },
                 );
-                setEvaluationsToGrade(response.data);
+                setEvaluationCopies(response.data);
             } catch (exception) {
-                setEvaluationsToGrade([]);
+                navigate('/accueil');
             }
         };
-
-        fetchEvaluationsToGrade();
+        getEvaluationCopies();
     }, []);
 
     return (
@@ -44,14 +38,11 @@ const Teacher: React.FC = () => {
             direction='column'
             gap='1rem'
         >
-            <Heading>Accueil formateur</Heading>
-            {null === evaluationsToGrade ? (
+            {null == evaluationCopies ? (
                 <Spinner />
-            ) : evaluationsToGrade.length === 0 ? (
-                <Text> Vous n&apos;avez aucune évaluation à noter.</Text>
             ) : (
                 <VStack>
-                    {evaluationsToGrade.map((evaluation, index) => (
+                    {evaluationCopies.map((copy, index) => (
                         <HStack
                             key={index}
                             border='1px solid'
@@ -66,7 +57,7 @@ const Teacher: React.FC = () => {
                                 backgroundColor: 'gray.50',
                             }}
                             onClick={() =>
-                                navigate(`/evaluation/${evaluation.id}/copies`)
+                                navigate(`/studentCopy/${copy.id}/grade`)
                             }
                         >
                             <VStack
@@ -75,32 +66,18 @@ const Teacher: React.FC = () => {
                                 lineHeight='1'
                             >
                                 <Text>
-                                    {`Du ${dayjs(evaluation.startsAt).format(
-                                        'DD MMM YYYY',
-                                    )}`}
-                                </Text>
-                                <Text>
-                                    {`au ${dayjs(evaluation.endsAt).format(
+                                    {`${dayjs(copy.createdAt).format(
                                         'DD MMM YYYY',
                                     )}`}
                                 </Text>
                             </VStack>
-                            <Text noOfLines={1}>{evaluation.quiz.title}</Text>
+                            <Text noOfLines={1}>
+                                {copy.student.name + ' ' + copy.student.surname}
+                            </Text>
                             <Divider
                                 orientation='vertical'
                                 h='30px'
                             />
-                            <Text
-                                fontWeight='medium'
-                                color='gray.600'
-                            >
-                                Formation
-                            </Text>
-                            <VStack>
-                                <Text noOfLines={1}>
-                                    {evaluation?.formation?.name ?? ''}
-                                </Text>
-                            </VStack>
                             <BsChevronRight />
                         </HStack>
                     ))}
@@ -110,4 +87,4 @@ const Teacher: React.FC = () => {
     );
 };
 
-export default Teacher;
+export default EvaluationCopies;

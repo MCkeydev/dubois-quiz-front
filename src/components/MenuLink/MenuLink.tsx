@@ -11,6 +11,7 @@ interface ISideMenuProps {
     destination: string;
     icon: React.ElementType;
     childRoutes?: Array<ISideMenuProps>;
+    label?: string;
 }
 
 const MenuLink: React.FC<ISideMenuProps> = ({
@@ -49,7 +50,9 @@ const MenuLink: React.FC<ISideMenuProps> = ({
                     w='1.4rem'
                     h='1.4rem'
                 />
-                <Text>{Tools.capitalize(props.destination)}</Text>
+                <Text>
+                    {Tools.capitalize(props.label ?? props.destination)}
+                </Text>
             </Flex>
             {undefined !== allowedChildRoutes &&
                 allowedChildRoutes.length > 0 && (
