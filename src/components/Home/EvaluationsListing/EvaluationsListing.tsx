@@ -20,6 +20,7 @@ interface IEvaluationsListingProps {
     evaluations: Array<Evaluation> | null;
     title: string;
     fallbackMessage: string;
+    disableClick?: boolean;
 }
 
 const EvaluationsListing: React.FC<IEvaluationsListingProps> = (props) => {
@@ -81,6 +82,7 @@ const EvaluationsListing: React.FC<IEvaluationsListingProps> = (props) => {
                                         backgroundColor: 'gray.50',
                                     }}
                                     onClick={() =>
+                                        !props.disableClick &&
                                         navigate(
                                             `/evaluation/${evaluation.id}/participate`,
                                         )
@@ -131,7 +133,7 @@ const EvaluationsListing: React.FC<IEvaluationsListingProps> = (props) => {
                                             {evaluation?.formation?.name ?? ''}
                                         </Text>
                                     </VStack>
-                                    <BsChevronRight />
+                                    {!props.disableClick && <BsChevronRight />}
                                 </HStack>
                             );
                         })}

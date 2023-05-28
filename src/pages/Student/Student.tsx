@@ -3,7 +3,7 @@ import { Flex } from '@chakra-ui/react';
 import { useAppSelector } from '../../store/hooks';
 import axios from 'axios';
 import { Evaluation, EvaluationObject, Formation } from '../../model/api';
-import LastCopyPreview from '../../components/Student/LastCopyPreview/LastCopyPreview';
+import LastCopyPreview from '../../components/LastCopyPreview/LastCopyPreview';
 import FormationListing from '../../components/Home/FormationListing/FormationListing';
 import EvaluationsListing from '../../components/Home/EvaluationsListing/EvaluationsListing';
 
@@ -33,7 +33,7 @@ const Student: React.FC = () => {
                 const response = await axios.get<EvaluationObject>(
                     `${
                         import.meta.env.VITE_API_BASE_URL
-                    }/evaluation/studentCopy/preview/last`,
+                    }/studentCopy/preview/last`,
                     {
                         withCredentials: true,
                     },
@@ -83,6 +83,7 @@ const Student: React.FC = () => {
                 fallbackMessage={"Vous n'avez pas d'évaluation en cours"}
             />
             <EvaluationsListing
+                disableClick
                 evaluations={homeData?.incoming ?? null}
                 title='Vos évaluations à venir'
                 fallbackMessage={"Vous n'avez aucune évaluation de prévu"}

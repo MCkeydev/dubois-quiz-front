@@ -12,7 +12,8 @@ import {
     Text,
 } from '@chakra-ui/react';
 import { BsArrowRightShort } from 'react-icons/all';
-import { EvaluationObject } from '../../../model/api';
+import { EvaluationObject } from '../../model/api';
+import { useNavigate } from 'react-router-dom';
 
 interface ILastCopyPreviewProps {
     studentPreviewData: EvaluationObject | null | undefined;
@@ -21,6 +22,8 @@ interface ILastCopyPreviewProps {
 const LastCopyPreview: React.FC<ILastCopyPreviewProps> = ({
     studentPreviewData,
 }) => {
+    const navigate = useNavigate();
+
     return (
         <Flex
             direction='column'
@@ -51,6 +54,11 @@ const LastCopyPreview: React.FC<ILastCopyPreviewProps> = ({
                         <Button
                             size='xs'
                             rightIcon={<BsArrowRightShort />}
+                            onClick={() => {
+                                navigate(
+                                    `/copies/${studentPreviewData?.studentCopy?.id}`,
+                                );
+                            }}
                         >
                             Voir la copie
                         </Button>
@@ -83,7 +91,10 @@ const LastCopyPreview: React.FC<ILastCopyPreviewProps> = ({
                                 <StatLabel>Note</StatLabel>
                                 <StatNumber fontSize='4xl'>
                                     {studentPreviewData.studentCopy?.score} /{' '}
-                                    {studentPreviewData.evaluation?.maxScore}
+                                    {
+                                        studentPreviewData.evaluation?.quiz
+                                            .maxScore
+                                    }
                                 </StatNumber>
                             </Stat>
                             <Stat
@@ -96,7 +107,11 @@ const LastCopyPreview: React.FC<ILastCopyPreviewProps> = ({
                                         studentPreviewData.evaluation
                                             ?.averageScore
                                     }
-                                    /{studentPreviewData.evaluation?.maxScore}
+                                    /
+                                    {
+                                        studentPreviewData.evaluation?.quiz
+                                            .maxScore
+                                    }
                                 </StatNumber>
                             </Stat>
                             <Flex

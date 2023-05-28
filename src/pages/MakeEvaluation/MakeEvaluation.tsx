@@ -78,16 +78,24 @@ const MakeEvaluation: React.FC = () => {
     // UseEffect to fetch data on first render
     React.useEffect(() => {
         const fetchEvaluation = async () => {
-            const response = await axios.get<Evaluation>(
-                `${
-                    import.meta.env.VITE_API_BASE_URL
-                }/evaluation/${evaluationId}`,
-                {
-                    withCredentials: true,
-                },
-            );
+            try {
+                const response = await axios.get<Evaluation>(
+                    `${
+                        import.meta.env.VITE_API_BASE_URL
+                    }/evaluation/${evaluationId}`,
+                    {
+                        withCredentials: true,
+                    },
+                );
 
-            setEvaluation(response.data);
+                setEvaluation(response.data);
+            } catch (e) {
+                console.error(
+                    "Une erreur est survenue pendant la récupération de l'évaluation",
+                    e,
+                );
+                navigate('/accueil');
+            }
         };
 
         fetchEvaluation();

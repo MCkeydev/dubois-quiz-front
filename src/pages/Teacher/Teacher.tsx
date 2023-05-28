@@ -44,7 +44,7 @@ const Teacher: React.FC = () => {
             direction='column'
             gap='1rem'
         >
-            <Heading>Student</Heading>
+            <Heading>Accueil formateur</Heading>
             {null === evaluationsToGrade ? (
                 <Spinner />
             ) : evaluationsToGrade.length === 0 ? (

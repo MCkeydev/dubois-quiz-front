@@ -42,13 +42,12 @@ const GradeCopy: React.FC = () => {
         getCopy();
     }, []);
 
-    const { register, control, handleSubmit } = useForm();
+    const { register, handleSubmit } = useForm();
 
     const onSubmit = handleSubmit(async (data) => {
         const dataEntries = Object.entries(data).filter(
             (item) => item[0] !== 'commentary',
         );
-        console.log(dataEntries);
 
         const apiData = {
             commentary: data.commentary,
@@ -116,8 +115,9 @@ const GradeCopy: React.FC = () => {
                                 </Text>
                                 <NumberInput
                                     mt='1rem'
-                                    min={0}
                                     max={answer.question.maxScore}
+                                    // @ts-ignore
+                                    min={Number(0)}
                                     size='md'
                                     maxW={24}
                                     {...register(`answer-${answer.id}.score`, {

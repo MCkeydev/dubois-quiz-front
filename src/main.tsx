@@ -7,10 +7,8 @@ import { Provider } from 'react-redux';
 import AuthManager from './components/AuthManager/AuthManager';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <React.StrictMode>
-        <Provider store={store}>
-            <AuthManager />
-            <App />
-        </Provider>
-    </React.StrictMode>,
+    <Provider store={store}>
+        <AuthManager />
+        <App />
+    </Provider>,
 );

@@ -19,10 +19,14 @@ import NotFound from './pages/NotFound/NotFound';
 import MakeEvaluation from './pages/MakeEvaluation/MakeEvaluation';
 import RoleProtectedRoute from './components/RoleProtectedRoute/RoleProtectedRoute';
 import theme from './styles/theme';
-import './App.css';
 import Logout from './pages/Logout/Logout';
 import EvaluationCopies from './pages/EvaluationCopies/EvaluationCopies';
 import GradeCopy from './pages/GradeCopy/GradeCopy';
+import CreateQuiz from './pages/CreateQuiz/CreateQuiz';
+import CreateEvaluation from './pages/CreateEvaluation/CreateEvaluation';
+import StudentCopies from './pages/StudentCopies/StudentCopies';
+import DetailedGradedCopy from './pages/DetailedGradedCopy/DetailedGradedCopy';
+import UpcomingEvaluations from './pages/UpcomingEvaluations/UpcomingEvaluations';
 
 dayjs.locale('fr');
 
@@ -45,10 +49,13 @@ function App() {
                     </Flex>
                 ) : (
                     <Routes>
+                        {/* ----- REDIRECTIONS ----- */}
                         <Route
                             path='/'
                             element={<Navigate to='/accueil' />}
                         />
+
+                        {/* ----- ROUTES MIXTES ----- */}
                         <Route
                             path=''
                             element={<Layout />}
@@ -70,6 +77,35 @@ function App() {
                                     />
                                 }
                             />
+
+                            {/* ----- ROUTES FORMATEUR -----*/}
+                            <Route
+                                path='/quiz/create'
+                                element={
+                                    <RoleProtectedRoute
+                                        allowedRoles={['ROLE_FORMATEUR']}
+                                        component={<CreateQuiz />}
+                                    />
+                                }
+                            />
+                            <Route
+                                path='/evaluations/incoming'
+                                element={
+                                    <RoleProtectedRoute
+                                        allowedRoles={['ROLE_FORMATEUR']}
+                                        component={<UpcomingEvaluations />}
+                                    />
+                                }
+                            />
+                            <Route
+                                path='/evaluation/create'
+                                element={
+                                    <RoleProtectedRoute
+                                        allowedRoles={['ROLE_FORMATEUR']}
+                                        component={<CreateEvaluation />}
+                                    />
+                                }
+                            />
                             <Route
                                 path='evaluation/:id/copies'
                                 element={
@@ -88,16 +124,8 @@ function App() {
                                     />
                                 }
                             />
-                            {/* STUDENT ROUTES */}
-                            <Route
-                                path='/accueil/student'
-                                element={
-                                    <RoleProtectedRoute
-                                        allowedRoles={['ROLE_FORMATEUR']}
-                                        component={<Student />}
-                                    />
-                                }
-                            />
+
+                            {/* ----- ROUTES ELEVES ----- */}
                             <Route
                                 path='/evaluation/:id/participate'
                                 element={
@@ -107,7 +135,27 @@ function App() {
                                     />
                                 }
                             />
+                            <Route
+                                path='/copies'
+                                element={
+                                    <RoleProtectedRoute
+                                        allowedRoles={['ROLE_ELEVE']}
+                                        component={<StudentCopies />}
+                                    />
+                                }
+                            />
+                            <Route
+                                path='/copies/:id'
+                                element={
+                                    <RoleProtectedRoute
+                                        allowedRoles={['ROLE_ELEVE']}
+                                        component={<DetailedGradedCopy />}
+                                    />
+                                }
+                            />
                         </Route>
+
+                        {/* ----- ROUTES PUBLIQUES ------ */}
                         <Route
                             path='/login'
                             element={<PublicOnlyRoute component={<Login />} />}
