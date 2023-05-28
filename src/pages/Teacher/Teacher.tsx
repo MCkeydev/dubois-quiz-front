@@ -50,7 +50,22 @@ const Teacher: React.FC = () => {
             ) : evaluationsToGrade.length === 0 ? (
                 <Text> Vous n&apos;avez aucune évaluation à noter.</Text>
             ) : (
-                <VStack>
+                <Flex
+                    direction='column'
+                    borderRadius='1rem'
+                    w='100%'
+                    paddingX='2rem'
+                    paddingY='3rem'
+                    gap='1rem'
+                    bg='white'
+                    boxShadow='md'
+                >
+                    <Text
+                        fontWeight='medium'
+                        fontSize='xl'
+                    >
+                        Vos évaluations à corriger
+                    </Text>
                     {evaluationsToGrade.map((evaluation, index) => (
                         <HStack
                             key={index}
@@ -104,7 +119,7 @@ const Teacher: React.FC = () => {
                             <BsChevronRight />
                         </HStack>
                     ))}
-                </VStack>
+                </Flex>
             )}
         </Flex>
     );

@@ -121,12 +121,10 @@ const Login: React.FC = () => {
                             <FormLabel>Adresse email</FormLabel>
                             <Input
                                 type='email'
+                                minW='350px'
                                 {...register('username')}
                             />
-                            <FormHelperText>
-                                We&apos;ll never share your email. (j&apos;ai
-                                menti)
-                            </FormHelperText>
+                            <FormHelperText></FormHelperText>
                         </FormControl>
                         <FormControl>
                             <FormLabel>Mot de passe</FormLabel>
@@ -134,10 +132,6 @@ const Login: React.FC = () => {
                                 type='password'
                                 {...register('password')}
                             />
-                            <FormHelperText>
-                                Promis nous n&apos;allons pas faire
-                                n&apos;importe quoi avec
-                            </FormHelperText>
                         </FormControl>
                         <Button
                             w='100%'
